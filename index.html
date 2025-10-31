@@ -40,7 +40,9 @@
         <div class="container">
             <h2 class="section-title">Sobre Mim</h2>
             <div class="about-content">
-                <img src="Eu.jpg" width="300" alt="Victor Santana">
+                <div class="imagem-perfil">
+                    <img src="Eu.jpg" width="300" alt="Victor Santana">
+                </div>
                 <div class="about-text">
                     <h2>Desenvolvedor Junior</h2>
                     <p>Eu sou Victor Santana, tenho 18 anos, programador Júnior que acabou de ingressar na área da tecnologia, eu amo tecnologia desde criança comecei a mexer com tecnologia com 12 anos, eu formatava e consertava o computador quando era garoto. Hoje em dia eu estou me formando em Python para virar desenvolvedor.</p>
@@ -341,7 +343,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('papel1.gif');
+            background-image: url('3.gif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -464,6 +466,22 @@
         .about-content img {
             max-width: 300px;
             height: auto;
+            border-radius: 15px;
+        }
+
+        /* Container for about image so JS can target and animate it safely */
+        .imagem-perfil {
+            max-width: 300px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            transform-origin: center;
+            display: block;
+        }
+
+        .imagem-perfil img {
+            width: 100%;
+            height: auto;
+            display: block;
             border-radius: 15px;
         }
 
@@ -838,6 +856,33 @@
             });
         });
 
+        const aboutImage = document.querySelector('.imagem-perfil');
+
+       //esse e o codigo 3d para a foto de perfil
+        if (aboutImage) {
+            aboutImage.addEventListener('mousemove', (e) => {
+                const imageRect = aboutImage.getBoundingClientRect();
+                const x = e.clientX - imageRect.left; // Posição X do mouse dentro da imagem
+                const y = e.clientY - imageRect.top;  // Posição Y do mouse dentro da imagem
+                
+                const centerX = imageRect.width / 2;
+                const centerY = imageRect.height / 2;
+                
+                // Cálculos para rotação
+                const rotateY = ((x - centerX) / centerX) * 15; // Ângulo máximo de 15 graus
+                const rotateX = ((centerY - y) / centerY) * 15; // Invertido para direção natural
+                
+                // Adicionar translação para aumentar a sensação de profundidade
+                const translateX = ((x - centerX) / centerX) * 10;
+                const translateY = ((y - centerY) / centerY) * 10;
+                
+                aboutImage.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px) translateY(${translateY}px) scale3d(1.05, 1.05, 1.05)`;
+            });
+
+            aboutImage.addEventListener('mouseleave', () => {
+                aboutImage.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        }
 
     </script>
 </body>
