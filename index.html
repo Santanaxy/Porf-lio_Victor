@@ -802,12 +802,12 @@
                 const centerY = cardRect.height / 2;
                 
                 // Cálculos mais sensíveis para rotação
-                const rotateY = ((x - centerX) / centerX) * 15; // Aumentei o ângulo máximo
-                const rotateX = ((centerY - y) / centerY) * 15; // Invertido para direção natural
+                const rotateY = ((x - centerX) / centerX) * 25; // Aumentei o ângulo máximo
+                const rotateX = ((centerY - y) / centerY) * 25; // Invertido para direção natural
                 
                 // Adicionei translação para aumentar a sensação de profundidade
-                const translateX = ((x - centerX) / centerX) * 10;
-                const translateY = ((y - centerY) / centerY) * 10;
+                const translateX = ((x - centerX) / centerX) * 15;
+                const translateY = ((y - centerY) / centerY) * 15;
                 
                 card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${translateX}px) translateY(${translateY}px) scale3d(1.05, 1.05, 1.05)`;
             });
@@ -816,6 +816,28 @@
                 card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
             });
         });
+
+         const contactItems = document.querySelectorAll('.contact-item');
+
+        contactItems.forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const itemRect = item.getBoundingClientRect();
+                const y = e.clientY - itemRect.top;
+                
+                const centerY = itemRect.height / 2;
+                
+                // Calcula apenas a rotação no eixo X (para cima e para baixo)
+                const rotateX = ((centerY - y) / centerY) * 25;
+                
+                // Aplica a transformação, mas apenas no eixo X
+                item.style.transform = `perspective(1200px) rotateX(${rotateX}deg) scale3d(1.10, 1.05, 1.05)`;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'perspective(1500px) rotateX(0) scale3d(1, 1, 1)';
+            });
+        });
+
 
     </script>
 </body>
